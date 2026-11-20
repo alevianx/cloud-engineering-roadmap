@@ -1,6 +1,6 @@
 # 🌐 Modelo OSI
 
-> **Fase:** 01 · Networking **Estado:** 🟡 En progreso (capas 1 y 2 ✅)
+> **Fase:** 01 · Networking **Estado:** 🟡 En progreso (capas 1 a 4 ✅ · 5 a 7 ⏳)
 > **Siguiente tema:** [`01-tcp-ip.md`](01-tcp-ip.md)
 
 ---
@@ -261,20 +261,11 @@ Una fibra se reparte entre **32–64 casas** con un splitter **pasivo** (sin ele
 > [!NOTE]
 > Cada tramo tiene su **propia capa 1** (radio → cobre → luz); la **capa 2 se arma y se desarma** en cada salto; en el router la decisión ya se toma **por IP** (capa 3).
 
-#### ¿“Internet propio”?
-
-Internet es una **red de redes**: siempre hay que conectarse a otra red. Estos son los niveles posibles:
-
-| Nivel                           | Qué implica                                                                                                                              |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 1️⃣ **Red casera propia**        | Router con OpenWrt / OPNsense, VLANs, firewall, servidor local (Raspberry Pi, Pi-hole, Nextcloud).                                       |
-| 2️⃣ **Exponer un servicio**      | IP pública del operador (ojo con **CGNAT**), o un túnel (Cloudflare Tunnel, Tailscale, VPN a una instancia en la nube).                  |
-| 3️⃣ **Red con identidad propia** | **ASN** + bloque de IPs asignados por **LACNIC** (requiere una organización legalmente constituida) y **BGP** con uno o más proveedores. |
-| 4️⃣ **Ser ISP**                  | En Colombia, inscripción en el **Registro Único de TIC** del MinTIC.                                                                     |
+> 📘 Cómo se conectan las redes entre sí (AS, BGP, peering) y los niveles de “Internet propio”: [`01-tcp-ip`](01-tcp-ip.md#6-internet-una-red-de-redes).
 
 ---
 
-### 🗺️ Capa 3 · Red 🟡
+### 🗺️ Capa 3 · Red ✅
 
 > **Qué hace:** lleva un paquete **entre redes distintas**. La capa 2 solo llega hasta el router; desde ahí manda la capa 3.
 
@@ -293,7 +284,7 @@ Internet es una **red de redes**: siempre hay que conectarse a otra red. Estos s
 
 📘 Ejemplo completo paso a paso (PC-A → router → servidor): [`04-routing-switching`](04-routing-switching.md)
 
-**Temas que vienen:** por qué la MAC solo sirve dentro de la red local, qué hace el router, IP y subredes, tablas de rutas, gateway por defecto, NAT / CGNAT, y BGP + ASN (cómo se conectan las redes entre sí). Es la **base directa de las VPC de AWS**.
+Se profundiza en [`02-ipv4-cidr`](02-ipv4-cidr.md), [`03-subnetting`](03-subnetting.md), [`04-routing-switching`](04-routing-switching.md) y [`05-dns-dhcp-nat`](05-dns-dhcp-nat.md). Es la **base directa de las VPC de AWS**.
 
 | PDU     | Dirección | Dispositivos | En AWS                                         |
 | ------- | --------- | ------------ | ---------------------------------------------- |
@@ -312,12 +303,12 @@ Internet es una **red de redes**: siempre hay que conectarse a otra red. Estos s
 | **TTL**                     | Cada router le resta 1; en 0 se descarta (evita bucles).                                           | —                                                 |
 | **ICMP**                    | Mensajes de control: `ping`, `traceroute`.                                                         | —                                                 |
 | **NAT / CGNAT**             | Traduce IP privada ↔ pública. Con CGNAT el operador comparte una IP pública entre muchos clientes. | [`05-dns-dhcp-nat`](05-dns-dhcp-nat.md)           |
-| **BGP + ASN**               | Cómo se conectan entre sí las redes que forman Internet.                                           | [`04-routing-switching`](04-routing-switching.md) |
+| **BGP + ASN**               | Cómo se conectan entre sí las redes que forman Internet.                                           | [`01-tcp-ip`](01-tcp-ip.md#6-internet-una-red-de-redes) |
 | **IPv6**                    | Direcciones de 128 bits.                                                                           | [`11-ipv6`](11-ipv6.md)                           |
 
 ---
 
-### 🚚 Capa 4 · Transporte ⏳
+### 🚚 Capa 4 · Transporte ✅
 
 > **Qué hace:** entrega los datos a la **aplicación correcta** (puerto) y, con TCP, garantiza que lleguen **completos y en orden**.
 
